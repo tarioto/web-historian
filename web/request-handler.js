@@ -27,8 +27,7 @@ exports.handleRequest = function (request, response) {
     });
   } else if (request.method === 'POST') {
     request.on('data', function(chunk) {
-      //console.log(chunk.toString());
-      var text = (chunk.toString()).slice(4);
+      //var text = (chunk.toString()).slice(4); //(this is the url without url=)
       fs.appendFile(archive.paths.list, (chunk.toString()).slice(4) + '\n', function(err) {
         if (err) { console.error(err); }
       });

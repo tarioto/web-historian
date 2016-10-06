@@ -35,27 +35,44 @@ exports.readListOfUrls = function(cb) {
 exports.isUrlInList = function(url, cb) {
   exports.readListOfUrls(function(data) {
     var found = false;
-    _.each(data, function(item) {
+    data.forEach(function(item) {
       if (item === url) {
+        console.log(item);
         found = true;
+        cb(found);
       }
-      cb(found);
     });
+    if (found === false) {
+      cb(found);
+    }
   });
 };
 
 exports.addUrlToList = function(url, cb) {
-  //appendFile(file, text, callback)
-  fs.appendFile(exports.paths.list, url + '\n', 'utf8', function(err) {
+  fs.appendFile(exports.paths.list, url + '\n', function(err) {
     if (err) { console.error(err); }
+    console.log('appended');
     cb();
   });
 };
 
-exports.isUrlArchived = function(url) {
-  //
+exports.isUrlArchived = function(url, cb) {
+  fs.access(exports.paths.archivedSites + '/' + url, function(err) {
+    var found = false;
+    if (err) { 
+      // console.error(err); 
+    } else {
+      found = true;
+    }
+    cb(found);
+  });
 };
 
-exports.downloadUrls = function() {
-  //
+exports.downloadUrls = function(urlArray) {
+  urlArray.forEach(function(url) {
+    fs.open(exports.paths.archivedSites + '/' + url, 'wx', function (err, fd) {
+      fs.close(fd, function (err) {
+      });
+    });
+  });
 };

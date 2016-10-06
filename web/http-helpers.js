@@ -19,7 +19,7 @@ exports.serveAssets = function(response, asset, callback) {
     if (err) { console.error(err); }
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.write(data.toString());
-    response.end(archive.paths.list);
+    response.end();
   });  
 
 };

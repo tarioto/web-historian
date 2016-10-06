@@ -26,16 +26,26 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function() {
+  //return array of archived urls
+  //readFile, and do something with text to generate array
+  //
 };
 
-exports.isUrlInList = function() {
+exports.isUrlInList = function(url) {
+  //return boolean
+  //var text = readFile(sites.txt)
+    //if text contains target url, return true
+  //else return false
 };
 
-exports.addUrlToList = function() {
+exports.addUrlToList = function(url) {
+  //appendFile(file, text, callback)
 };
 
-exports.isUrlArchived = function() {
+exports.isUrlArchived = function(url) {
+  //
 };
 
 exports.downloadUrls = function() {
+  //
 };

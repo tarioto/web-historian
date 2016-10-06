@@ -20,16 +20,7 @@ exports.serveAssets = function(response, asset, callback) {
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.write(data.toString());
     response.end(archive.paths.list);
-  });
-
-
-    //   fs.readFile('./web/public/index.html', (err, data) => {
-    //   if (err) { console.error(err); } 
-    //   response.writeHead(200, {'Content-Type': 'text/html'});
-    //   response.write(data.toString());
-    //   response.end(archive.paths.list);
-    // });    
-  
+  });  
 
 };
 

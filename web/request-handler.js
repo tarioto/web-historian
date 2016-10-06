@@ -8,21 +8,10 @@ var helpers = require('./http-helpers');
 var headers = helpers.headers;
 
 exports.handleRequest = function (request, response) {
-  
-  var parts;
 
   if (request.method === 'GET' && request.url === '/') {
     // console.log(request);
     helpers.serveAssets(response, './web/public/index.html'); 
-
-    // fs.readFile('./web/public/index.html', (err, data) => {
-    //   if (err) { console.error(err); } 
-    //   response.writeHead(200, {'Content-Type': 'text/html'});
-    //   response.write(data.toString());
-    //   response.end(archive.paths.list);
-    //  });
-
-    //helpers.serveAssets(response, /archive.html)
 
   } else if (request.method === 'GET' && request.url !== '/') {
       //test if request.url is an archived site ... 
@@ -37,6 +26,15 @@ exports.handleRequest = function (request, response) {
       }
     });
   } else if (request.method === 'POST') {
-    console.log(request);
+    request.on('data', function(chunk) {
+      //console.log(chunk.toString());
+      var text = (chunk.toString()).slice(4);
+      fs.appendFile(archive.paths.list, (chunk.toString()).slice(4) + '\n', function(err) {
+        if (err) { console.error(err); }
+      });
+      response.writeHead(302);
+      response.end();
+    });
+    
   }
 };

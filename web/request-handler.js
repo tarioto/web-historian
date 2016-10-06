@@ -2,7 +2,6 @@ var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var fs = require('fs');
 var helpers = require('./http-helpers');
-var urlParse = require('url');
 //var util = require('util');
 // require more modules/folders here!
 
@@ -10,8 +9,7 @@ var headers = helpers.headers;
 
 exports.handleRequest = function (request, response) {
   
-  var parts = urlParse.parts(request.url);
-  console.log(parts);
+  var parts;
 
   if (request.method === 'GET' && request.url === '/') {
     // console.log(request);
@@ -27,20 +25,18 @@ exports.handleRequest = function (request, response) {
     //helpers.serveAssets(response, /archive.html)
 
   } else if (request.method === 'GET' && request.url !== '/') {
-    //if filed does not exist {
-    // if (fs.stat(process.cwd() + '/archives/sites' + request.url, (err, stats) => {
-    //   if (err) { 
-    //     console.error(err);
-    //   }
-    //   if (stats.isFile()) {
-    //     console.log(stats);
-    //   }  
-    // })) {
-    //   response.writeHead(404, {'Content-Type': 'text/html'});
-    //   response.end();
-    // } else {
-    //   helpers.serveAssets(response, '/archives/sites/' + request.url);
-    // }
-    helpers.serveAssets(response, '/archives/sites/' + request.url);
+      //test if request.url is an archived site ... 
+        //if it is, we need to serveAssets(assest = archivedsitefile)
+      //if not, do 404
+    fs.access(archive.paths.archivedSites + request.url, function(err) {
+      if (err && err.code === 'ENOENT') {
+        response.writeHead(404);
+        response.end();
+      } else {
+        helpers.serveAssets(response, archive.paths.archivedSites + request.url);
+      }
+    });
+  } else if (request.method === 'POST') {
+    console.log(request);
   }
 };

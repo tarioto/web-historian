@@ -70,9 +70,9 @@ exports.isUrlArchived = function(url, cb) {
 
 exports.downloadUrls = function(urlArray) {
   urlArray.forEach(function(url) {
-    fs.open(exports.paths.archivedSites + '/' + url, 'wx', function (err, fd) {
-      fs.close(fd, function (err) {
-      });
+    fs.open(exports.paths.archivedSites + '/' + url, 'w', function (err, fd) {
+      if (err) { console.error(err); }
+      fs.close(fd);
     });
   });
 };
